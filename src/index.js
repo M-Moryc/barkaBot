@@ -1,4 +1,7 @@
 require('dotenv').config()
+const Express = require('express');
+
+const app = Express();
 
 const Discord = require('discord.js');
 const schedule = require('node-schedule');
@@ -39,3 +42,9 @@ async function playBarka(channel){
 }
 
 client.login(process.env.DISCORD_TOKEN);
+
+app.set('port', process.env.PORT || 3000);
+
+app.listen(app.get('port'), () => {
+    console.log('Express server listening on port ' + app.get('port'));
+  });
