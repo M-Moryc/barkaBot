@@ -32,7 +32,10 @@ const papiezowa = schedule.scheduleJob({hour: 21, minute: 37}, () => {playBarka(
 
 async function playBarka(channel){
     const connection = await channel.join();
-    connection.play(ytdl('https://www.youtube.com/watch?v=0qzLRlQFFQ4', { filter: 'audioonly' }));
+    const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=0qzLRlQFFQ4', { filter: 'audioonly' }));
+    dispatcher.on('finish', () => {
+        channel.leave();
+      }); 
 }
 
 client.login(process.env.DISCORD_TOKEN);
