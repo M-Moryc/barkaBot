@@ -21,7 +21,7 @@ const commands = {
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
     setupBarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[playBarka](message)});console.log("setupdone"); message.delete();},
-    plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay()))}
+    plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))}
               
 }
 
@@ -32,7 +32,8 @@ function roll(message){
     else
         message.reply(Math.floor(Math.random()*6 +1));
 } 
-function returnTimeTable(day){
+function returnTimeTable(day, message){
+    const userRoles = getUserRoles(message);
     let activeArray = [];
       timeTable.map((_class =>{
         const date = new Date();
@@ -45,7 +46,9 @@ function returnTimeTable(day){
             _class.ostatniDzien.setDate(_class.ostatniDzien.getDate()+1);
         }
         _class.dzienTygodnia = _class.dzienTygodnia.toLocaleLowerCase();
-        if(date.getTime() > _class.pierwszyDzien.getTime() && date.getTime() < _class.ostatniDzien.getTime() && _class.dzienTygodnia == day.toLocaleLowerCase())
+        if(date.getTime() > _class.pierwszyDzien.getTime() && date.getTime() < _class.ostatniDzien.getTime() && _class.dzienTygodnia == day.toLocaleLowerCase()
+            && (_class.typ=="Wykład" || (userRoles.includes((_class.tytul).trim() + _class.grupa)))
+        )
           activeArray.push(_class);
       }));
     activeArray.sort((a, b)=>{
@@ -66,6 +69,24 @@ function getDay(){
         case 4: return "cz";
         case 5: return "pt";
     }
+}
+function getUserRoles(message){
+    const userRoles = message.member.roles._roles;
+    userRolesArray = [];
+    userRoles.map(role =>{
+        userRolesArray.push(roles[role.name]);
+    });
+    return userRolesArray;
+}
+
+const roles = {
+    'Grupa 1 SS': "Społeczeństwo sieci1",
+    'Grupa 2 SS': "Społeczeństwo sieci2",
+    'Grupa 3 SS': "Społeczeństwo sieci3",
+    'Filozofia 1': "Podstawy filozofii1",
+    'Filozofia 2': "Podstawy filozofii2",
+    'wds2': "Wstęp do socjologii2",
+    'wds3': "Wstęp do socjologii3"
 }
 
 
