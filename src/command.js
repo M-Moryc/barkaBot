@@ -4,6 +4,7 @@ const timeTable = require('./data/timetable.json');
 const _ = require("lodash");
 
 function handleCommand(message){
+    message.content = message.content.toLocaleLowerCase();
     commandArray = message.content.split(" ");
     if(commandArray[0] != 'b!')
         return;
@@ -16,11 +17,11 @@ function handleCommand(message){
 }
 
 const commands = {
-    playBarka: (message) => {play(message, "https://www.youtube.com/watch?v=0qzLRlQFFQ4");},
+    playbarka: (message) => {play(message, "https://www.youtube.com/watch?v=0qzLRlQFFQ4");},
     play: (message) => {play(message, commandArray[2])},
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
-    setupBarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[playBarka](message)});console.log("setupdone"); message.delete();},
+    setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[playBarka](message)});console.log("setupdone"); message.delete();},
     plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))}
               
 }
