@@ -57,8 +57,13 @@ function returnTimeTable(day, message){
     });
     activeArray = _.uniqWith(activeArray, _.isEqual);
     let responseMessage = "";
+    let lastLine = "";
     activeArray.map(_class =>{
-        responseMessage += `${_class.poczatek}-${_class.koniec} ${_class.tytul} gr:${_class.grupa} ${_class.typ}\n`
+        const responseMessageLine = `${_class.poczatek}-${_class.koniec} ${_class.tytul} gr:${_class.grupa} ${_class.typ}\n`;
+        if(lastLine != responseMessageLine){
+            responseMessage += responseMessageLine;
+            lastLine = responseMessageLine;
+        }
     });
     return responseMessage;
 }
