@@ -21,7 +21,8 @@ const commands = {
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[playbarka](message)});console.log("setupdone"); message.delete();},
-    plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))}
+    plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))},
+    purge: async (message) =>{purge(message, commandArray[2])}
               
 }
 
@@ -31,7 +32,13 @@ function roll(message){
     }
     else
         message.reply(Math.floor(Math.random()*6 +1));
-} 
+}
+async function purge(message, limit){
+    const messages = await message.channel.messages.fetch({limit: limit});
+    messages.forEach(m => {
+        m.delete();
+    });
+}
 
 
 module.exports = {handleCommand};
