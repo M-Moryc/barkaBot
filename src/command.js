@@ -16,11 +16,10 @@ function handleCommand(message){
 }
 
 const commands = {
-    playbarka: (message) => {play(message, "https://www.youtube.com/watch?v=0qzLRlQFFQ4");},
     play: (message) => {play(message, commandArray[2])},
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
-    setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[playbarka](message)});console.log("setupdone"); message.delete();},
+    setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
     plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))},
     purge: async (message) =>{purge(message, commandArray[2])}
               
