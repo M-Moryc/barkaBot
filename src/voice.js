@@ -10,7 +10,6 @@ async function play(message, song){
         
     }
 
-    console.log(song);
     const channel = message.member.voice.channel;
     if(channel === null){
         message.reply("join a voice channel first");

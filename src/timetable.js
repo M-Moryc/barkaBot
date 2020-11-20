@@ -19,19 +19,20 @@ function returnTimeTable(day, message){
         )
           activeArray.push(_class);
       }));
-    activeArray.sort((a, b)=>{
+      const filteredArray = [];
+      activeArray.forEach(_class =>{
+        let push = true;
+        filteredArray.forEach((__class)=>{
+            if(push && _class.tytul == __class.tytul && _class.poczatek == __class.poczatek)
+                push=false;
+        })
+        if(push)
+            filteredArray.push(_class);
+      });
+    filteredArray.sort((a, b)=>{
         return parseFloat(a.poczatek) - parseFloat(b.poczatek);
     });
-    let responseMessage = "";
-    let lastLine = "";
-    activeArray.map(_class =>{
-        const responseMessageLine = `${_class.poczatek}-${_class.koniec} ${_class.tytul} gr:${_class.grupa} ${_class.typ}\n`;
-        if(lastLine != responseMessageLine){
-            responseMessage += responseMessageLine;
-            lastLine = responseMessageLine;
-        }
-    });
-    return responseMessage;
+    return filteredArray;
 }
 function getDay(){
     switch(new Date().getDay()){
@@ -61,4 +62,15 @@ const roles = {
     'wds3': "Wstęp do socjologii3"
 }
 
-module.exports = {returnTimeTable, getDay};
+function stringifyClasses(classesArray){
+    let responseMessage = "";
+    classesArray.map(_class =>{
+        const responseMessageLine = `${_class.poczatek}-${_class.koniec} ${_class.tytul} gr:${_class.grupa} ${_class.typ}\n`;
+        responseMessage += responseMessageLine;
+    });
+    return responseMessage;
+}
+
+
+
+module.exports = {returnTimeTable, getDay, stringifyClasses};

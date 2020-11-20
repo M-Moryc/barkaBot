@@ -1,6 +1,6 @@
 const {play, stop} = require('./voice');
 const schedule = require('node-schedule');
-const {returnTimeTable, getDay} = require('./timetable');
+const {returnTimeTable, getDay, stringifyClasses} = require('./timetable');
 
 function handleCommand(message){
     message.content = message.content.toLocaleLowerCase();
@@ -20,7 +20,7 @@ const commands = {
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
-    plan: (message) =>{message.reply(returnTimeTable(commandArray[2] || getDay(), message))},
+    plan: (message) =>{message.reply(stringifyClasses(returnTimeTable(commandArray[2] || getDay(), message)))},
     purge: async (message) =>{purge(message, commandArray[2])}
               
 }
