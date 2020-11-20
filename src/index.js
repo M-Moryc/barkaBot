@@ -16,7 +16,8 @@ client.on('message', message => {
     
    handleCommand(message);
     
-})
+});
+
 
 client.login(process.env.DISCORD_TOKEN);
 

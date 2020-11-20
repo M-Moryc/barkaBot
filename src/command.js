@@ -20,8 +20,8 @@ const commands = {
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
-    plan: (message) =>{message.reply(stringifyClasses(returnTimeTable(commandArray[2] || getDay(), message)))},
-    purge: async (message) =>{purge(message, commandArray[2])}
+    plan: (message) =>{plan(message)},
+    purge: async (message) =>{purge(message, commandArray[2])},
               
 }
 
@@ -38,6 +38,18 @@ async function purge(message, limit){
         m.delete();
     });
 }
+function ifFiloPlayScifi(message, plan){
+    if(plan.match(/Podstawy filozofii/) && message.member.voice.channel)
+        play(message, 'sci-fi');
+
+}
+function plan(message) {
+    const planString = stringifyClasses(returnTimeTable(commandArray[2] || getDay(), message));
+    ifFiloPlayScifi(message, planString);
+    message.reply(planString);
+}
+
+
 
 
 module.exports = {handleCommand};
