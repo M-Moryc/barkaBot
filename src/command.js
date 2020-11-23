@@ -16,7 +16,7 @@ function handleCommand(message){
 }
 
 const commands = {
-    play: (message) => {play(message, commandArray[2])},
+    play: (message, param=commandArray[2]) => {play(message, param)},
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
