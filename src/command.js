@@ -22,6 +22,7 @@ const commands = {
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
     plan: (message) =>{plan(message)},
     purge: async (message) =>{purge(message, commandArray[2])},
+    syllabus: (message) =>{message.reply('https://sylabusy.agh.edu.pl/pl/1/1/16/1/1/38/50')}
               
 }
 
