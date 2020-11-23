@@ -6,6 +6,8 @@ function returnTimeTable(day, message){
     let activeArray = [];
       timeTable.map((_class =>{
         const date = new Date();
+        date.setDate(date.getDate() + (getDayNumber(day) - date.getDay()));
+        //console.log(date);
         _class.pierwszyDzien = new Date(_class.pierwszyDzien);
         if(_class.ostatniDzien == null){
             _class.ostatniDzien = new Date(2021, 5, 1);
@@ -42,6 +44,15 @@ function getDay(){
         case 3: return "śr";
         case 4: return "cz";
         case 5: return "pt";
+    }
+}
+function getDayNumber(day){
+    switch(day){
+        case 'pn': return 1;
+        case 'wt': return 2;
+        case 'śr': return 3;
+        case 'cz': return 4;
+        case 'pt': return 5;
     }
 }
 function getUserRoles(message){
