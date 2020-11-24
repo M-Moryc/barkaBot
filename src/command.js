@@ -8,6 +8,9 @@ function handleCommand(message){
     autoRespond(message);
     message.content = message.content.toLocaleLowerCase();
     commandArray = message.content.match(/(?:[^\s"]+|"[^"]*")+/g);
+    if(!commandArray){
+        return;
+    }
     commandArray = commandArray.map(command=>{
         return command.replace(/"/g,"");
     })
