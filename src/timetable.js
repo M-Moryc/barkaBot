@@ -1,5 +1,5 @@
 const timeTable = require('./data/timetable.json');
-const {roles} = require('./roles');
+const {getUserRoles} = require('./roles');
 
 function returnTimeTable(day, message){
     const userRoles = getUserRoles(message);
@@ -54,14 +54,6 @@ function getDayNumber(day){
         case 'cz': return 4;
         case 'pt': return 5;
     }
-}
-function getUserRoles(message){
-    const userRoles = message.member.roles._roles;
-    userRolesArray = [];
-    userRoles.map(role =>{
-        userRolesArray.push(roles[role.name]);
-    });
-    return userRolesArray;
 }
 
 
