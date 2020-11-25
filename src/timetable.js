@@ -1,7 +1,7 @@
 const timeTable = require('./data/timetable.json');
 const {getUserRoles} = require('./roles');
 
-function returnTimeTable(day, message){
+function returnTimeTable(day, message, full){
     const userRoles = getUserRoles(message);
     let activeArray = [];
       timeTable.map((_class =>{
@@ -18,7 +18,7 @@ function returnTimeTable(day, message){
         }
         _class.dzienTygodnia = _class.dzienTygodnia.toLocaleLowerCase();
         if(date.getTime() > _class.pierwszyDzien.getTime() && date.getTime() < _class.ostatniDzien.getTime() && _class.dzienTygodnia == day.toLocaleLowerCase()
-            && (_class.typ=="Wykład" || (userRoles.includes((_class.tytul).trim() + _class.grupa)))
+            && (full || _class.typ=="Wykład" || (userRoles.includes((_class.tytul).trim() + _class.grupa)))
         )
           activeArray.push(_class);
       }));
