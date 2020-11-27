@@ -1,6 +1,6 @@
-const ytdl = require('ytdl-core');
+const ytdl = require('ytdl-core-discord');
 let connection = null;
-const queue = [];
+let queue = [];
 
 async function play(message, song){
     if(!isYt(song)){
@@ -21,8 +21,9 @@ async function play(message, song){
     if(!connection){
         connection = await channel.join();
         const dispatcher = connection
-        .play(ytdl(queue.shift()))
+        .play(await ytdl(queue.shift()), { type: 'opus' })
         .on('finish', () => {
+            console.log('song finished');
             skip(message);
         });
     }
@@ -34,17 +35,19 @@ async function stop(message){
        message.reply("no playback is on");
        return;
    }
+   queue = [];
    connection.disconnect();
 
 }
 async function skip(message){
     if(queue.length===0){
         stop(message);
+        return;
     }
     if(connection === null){
         return;
     }
-    connection.play(ytdl(queue.shift(), { filter: 'audioonly' }));
+    connection.play(await ytdl(queue.shift()), { type: 'opus' });
 }
 
 function isYt(song){
