@@ -1,5 +1,6 @@
 const ytdl = require('ytdl-core');
 let connection = null;
+const queue = [];
 
 async function play(message, song){
     if(!isYt(song)){
@@ -16,12 +17,15 @@ async function play(message, song){
         message.delete();
         return;
     }
-    connection = await channel.join();
-    const dispatcher = connection.play(ytdl(song, { filter: 'audioonly' }));
-    dispatcher.on('finish', () => {
-        connection = null;
-        channel.leave();
-      });
+    queue.push(song);
+    if(!connection){
+        connection = await channel.join();
+        const dispatcher = connection
+        .play(ytdl(queue.shift()))
+        .on('finish', () => {
+            skip(message);
+        });
+    }
     message.delete();
 }
 
@@ -32,6 +36,15 @@ async function stop(message){
    }
    connection.disconnect();
 
+}
+async function skip(message){
+    if(queue.length===0){
+        stop(message);
+    }
+    if(connection === null){
+        return;
+    }
+    connection.play(ytdl(queue.shift(), { filter: 'audioonly' }));
 }
 
 function isYt(song){
@@ -45,4 +58,4 @@ const songs = {
     barka: 'https://www.youtube.com/watch?v=0qzLRlQFFQ4'
 }
 
-module.exports = {play, stop};
+module.exports = {play, stop, skip};

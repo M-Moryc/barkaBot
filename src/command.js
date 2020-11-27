@@ -1,4 +1,4 @@
-const {play, stop} = require('./voice');
+const {play, stop, skip} = require('./voice');
 const schedule = require('node-schedule');
 const {returnTimeTable, getDay, stringifyClasses} = require('./timetable');
 const {setResponse} = require('./autoResponses');
@@ -33,6 +33,7 @@ const commands = {
     play: (message, param=params[0]) => {play(message, param)},
     roll: (message) => {roll(message)},
     stop: (message) => {stop(message)},
+    skip: (message) => {skip(message)},
     setupbarka: (message) => {schedule.scheduleJob({hour: 20, minute: 37}, () => {commands[play](message, 'barka')});console.log("setupdone"); message.delete();},
     plan: (message) =>{plan(message, params)},
     purge: async (message) =>{purge(message, params[0])},
